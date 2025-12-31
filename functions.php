@@ -29,6 +29,9 @@ function ball_street_enqueue_assets() {
     
     // Component styles
     wp_enqueue_style('components', get_template_directory_uri() . '/css/components.css', array('base'), '1.0.0');
+
+    // Header styles
+    wp_enqueue_style('header', get_template_directory_uri() . '/css/header.css', array('base'), '1.0.0');
     
     // Template sections
     wp_enqueue_style('template-sections', get_template_directory_uri() . '/css/template-sections.css', array('components'), '1.0.0');
@@ -52,4 +55,4 @@ function ball_street_enqueue_assets() {
 add_action('wp_enqueue_scripts', 'ball_street_enqueue_assets');
 
 // Include template functions
-// require_once get_template_directory() . '/inc/template-sections.php';
+require_once get_template_directory() . '/inc/template-sections.php';

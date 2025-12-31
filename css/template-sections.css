@@ -1,0 +1,252 @@
+/**
+ * Template Sections CSS
+ * Styles for Hero, Header, Newsletter, and other template sections
+ */
+
+/* Container */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(to bottom right, var(--bsj-navy), #1E3A8A);
+    color: white;
+    padding: 5rem 0;
+}
+
+.hero-grid {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .hero-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.breaking-badge {
+    display: inline-block;
+    background-color: var(--bsj-gold);
+    color: var(--bsj-navy);
+    padding: 0.25rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    color: white
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--gray-300);
+    margin-bottom: 2rem;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-primary {
+    background-color: var(--bsj-gold);
+    color: var(--bsj-navy);
+    padding: 0.75rem 2rem;
+    border-radius: 0.375rem;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #EAB308;
+}
+
+.btn-secondary {
+    border: 2px solid white;
+    color: white;
+    background: transparent;
+    padding: 0.75rem 2rem;
+    border-radius: 0.375rem;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+    background-color: white;
+    color: var(--bsj-navy);
+}
+
+/* Market Watch */
+.market-watch {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.market-label {
+    font-size: 0.875rem;
+    color: var(--bsj-gold);
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.market-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.market-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.market-name {
+    font-weight: 500;
+}
+
+.market-value {
+    color: #4ADE80;
+    font-weight: bold;
+}
+
+/* Header Section */
+.header-section {
+    background: linear-gradient(to bottom right, var(--bsj-navy), #1E3A8A);
+    color: white;
+    padding: 3rem 0;
+}
+
+.header-title {
+    font-size: 2.25rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.header-subtitle {
+    font-size: 1.25rem;
+    color: var(--gray-300);
+    margin-bottom: 2rem;
+}
+
+/* Newsletter Section */
+.newsletter {
+    padding: 5rem 0;
+    background-color: var(--bsj-navy);
+    color: white;
+}
+
+.newsletter-container {
+    max-width: 896px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    text-align: center;
+}
+
+.newsletter-title {
+    font-size: 2.25rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.newsletter-description {
+    font-size: 1.25rem;
+    color: var(--gray-300);
+    margin-bottom: 2rem;
+}
+
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+    .newsletter-form {
+        flex-direction: row;
+    }
+}
+
+.newsletter-input {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    border-radius: 0.375rem;
+    border: 1px solid var(--bsj-gold);
+    font-size: 1rem;
+    color: var(--gray-900);
+}
+
+.newsletter-input:focus {
+    outline: 2px solid var(--bsj-gold);
+    outline-offset: 0;
+}
+
+.newsletter-btn {
+    background-color: var(--bsj-gold);
+    color: var(--bsj-navy);
+    padding: 1rem 2rem;
+    border-radius: 0.375rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.3s;
+}
+
+.newsletter-btn:hover {
+    background-color: #EAB308;
+}
+
+.newsletter-note {
+    font-size: 0.875rem;
+    color: var(--gray-400);
+    margin-top: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .header-title {
+        font-size: 1.875rem;
+    }
+    
+    .header-subtitle {
+        font-size: 1rem;
+    }
+    
+    .newsletter-title {
+        font-size: 1.875rem;
+    }
+    
+    .newsletter-description {
+        font-size: 1rem;
+    }
+}
