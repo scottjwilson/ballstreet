@@ -94,7 +94,7 @@
                 <a href="<?php echo get_category_link($category->term_id); ?>">
                     <div class="category-card">
                         <div class="category-icon"><?php echo $category_emoji; ?></div>
-                        <h3 class="category-title"><?php echo esc_html($category->name); ?></h3>
+                        <h5 class="category-title"><?php echo esc_html($category->name); ?></h5>
                         <p class="category-desc"><?php echo esc_html($category_description ?: 'Category posts'); ?></p>
                     </div>
                 </a>

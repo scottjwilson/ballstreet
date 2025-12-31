@@ -53,18 +53,3 @@
     </nav>
 </header>
 
-<script>
-// Mobile menu toggle
-document.addEventListener('DOMContentLoaded', function() {
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const mobileNav = document.querySelector('.nav-mobile');
-    
-    if (mobileMenuBtn && mobileNav) {
-        mobileMenuBtn.addEventListener('click', function() {
-            const isOpen = mobileNav.classList.toggle('is-open');
-            mobileMenuBtn.classList.toggle('is-active');
-            mobileMenuBtn.setAttribute('aria-expanded', isOpen);
-        });
-    }
-});
-</script>

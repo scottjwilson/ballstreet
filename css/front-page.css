@@ -373,12 +373,13 @@
     display: grid;
     gap: 1.5rem;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    padding: 0 1rem;
 }
 
 .category-card {
     background-color: white;
     padding: 1.5rem;
-    border-radius: 0.5rem;
+    border-radius: 0.75rem;
     border: 2px solid transparent;
     text-align: center;
     cursor: pointer;
@@ -393,7 +394,7 @@
 }
 
 .category-icon {
-    font-size: 2.5rem;
+    font-size: 2rem;
     margin-bottom: 0.75rem;
 }
 

@@ -1,0 +1,499 @@
+/**
+ * Single Post CSS
+ * Styles for individual blog post pages
+ */
+
+/* Post Header Section */
+.post-header {
+    background: linear-gradient(to bottom right, var(--bsj-navy), #1E3A8A);
+    color: white;
+    padding: 3rem 0;
+}
+
+/* Back Link */
+.back-link-wrapper {
+    margin-bottom: 1.5rem;
+}
+
+.back-link {
+    color: var(--bsj-gold);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color var(--transition-base);
+}
+
+.back-link:hover {
+    color: #EAB308;
+}
+
+.back-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Post Meta */
+.post-meta-tags {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.post-category-badge {
+    background-color: var(--bsj-gold);
+    color: var(--bsj-navy);
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.post-date {
+    color: var(--gray-300);
+    font-size: 0.875rem;
+}
+
+/* Post Title */
+.post-title {
+    font-size: 2.25rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    color: white;
+}
+
+@media (min-width: 768px) {
+    .post-title {
+        font-size: 3rem;
+    }
+}
+
+/* Associated Athlete Card */
+.athlete-card-wrapper {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.athlete-link-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+    transition: background-color var(--transition-base);
+}
+
+.athlete-link-card:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.athlete-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 0.5rem;
+    object-fit: cover;
+}
+
+.athlete-thumb-placeholder {
+    width: 48px;
+    height: 48px;
+    border-radius: 0.5rem;
+    background-color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.athlete-thumb-placeholder span {
+    color: white;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.athlete-link-info {
+    flex: 1;
+}
+
+.athlete-link-label {
+    font-size: 0.75rem;
+    color: var(--bsj-gold);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+}
+
+.athlete-link-name {
+    color: white;
+    font-weight: 600;
+    transition: color var(--transition-base);
+}
+
+.athlete-link-card:hover .athlete-link-name {
+    color: var(--bsj-gold);
+}
+
+.athlete-link-arrow {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: white;
+    margin-left: auto;
+}
+
+/* Featured Image Section */
+.featured-image-section {
+    padding: 2rem 0;
+    background-color: var(--gray-50);
+}
+
+.featured-image-container {
+    max-width: 896px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+    .featured-image-container {
+        padding: 0 1.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .featured-image-container {
+        padding: 0 2rem;
+    }
+}
+
+.featured-image-wrapper {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.featured-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Post Content Section */
+.post-content-section {
+    padding: 4rem 0;
+    background-color: white;
+}
+
+.post-content-container {
+    max-width: 896px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+    .post-content-container {
+        padding: 0 1.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .post-content-container {
+        padding: 0 2rem;
+    }
+}
+
+/* Post Content - WordPress Editor Styles */
+.post-content {
+    font-size: 1.125rem;
+    line-height: 1.75;
+    max-width: none;
+}
+
+.post-content > * + * {
+    margin-top: 1.5rem;
+}
+
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-content h5,
+.post-content h6 {
+    color: var(--bsj-navy);
+    font-weight: bold;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.post-content h2 {
+    font-size: 1.875rem;
+}
+
+.post-content h3 {
+    font-size: 1.5rem;
+}
+
+.post-content h4 {
+    font-size: 1.25rem;
+}
+
+.post-content a {
+    color: var(--bsj-blue);
+    text-decoration: none;
+    transition: text-decoration var(--transition-base);
+}
+
+.post-content a:hover {
+    text-decoration: underline;
+}
+
+.post-content strong {
+    color: var(--bsj-navy);
+    font-weight: 700;
+}
+
+.post-content img {
+    border-radius: 0.5rem;
+    max-width: 100%;
+    height: auto;
+}
+
+.post-content blockquote {
+    border-left: 4px solid var(--bsj-gold);
+    background-color: var(--gray-50);
+    padding: 1rem 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+}
+
+.post-content ul,
+.post-content ol {
+    padding-left: 1.5rem;
+}
+
+.post-content li {
+    margin-bottom: 0.5rem;
+}
+
+.post-content code {
+    background-color: var(--gray-100);
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+    font-family: var(--font-family-mono);
+}
+
+.post-content pre {
+    background-color: var(--gray-900);
+    color: var(--gray-100);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+}
+
+.post-content pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+}
+
+.post-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+}
+
+.post-content th,
+.post-content td {
+    padding: 0.75rem;
+    border: 1px solid var(--gray-200);
+    text-align: left;
+}
+
+.post-content th {
+    background-color: var(--gray-50);
+    font-weight: 600;
+}
+
+/* Post Footer */
+.post-footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--gray-200);
+}
+
+.post-footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.post-categories {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.post-categories-list {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.categories-label {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    font-weight: 500;
+}
+
+.category-link {
+    color: var(--bsj-blue);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color var(--transition-base);
+}
+
+.category-link:hover {
+    color: var(--bsj-navy);
+}
+
+/* Related Posts Section */
+.related-posts-section {
+    padding: 4rem 0;
+    background-color: var(--gray-50);
+}
+
+.related-posts-title {
+    font-size: 1.875rem;
+    font-weight: bold;
+    color: var(--bsj-navy);
+    margin-bottom: 2rem;
+}
+
+.related-posts-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .related-posts-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.related-post-card {
+    background-color: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: box-shadow var(--transition-base);
+}
+
+.related-post-card:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+.related-post-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.related-post-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: var(--gray-200);
+}
+
+.related-post-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.related-post-body {
+    padding: 1.5rem;
+}
+
+.related-post-title {
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: var(--bsj-navy);
+    margin-bottom: 0.5rem;
+    transition: color var(--transition-base);
+}
+
+.related-post-link:hover .related-post-title {
+    color: var(--bsj-blue);
+}
+
+.related-post-date {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+}
+
+/* WordPress Blocks Support */
+.post-content .wp-block-image {
+    margin: 2rem 0;
+}
+
+.post-content .wp-block-image img {
+    display: block;
+    margin: 0 auto;
+}
+
+.post-content .wp-block-quote {
+    border-left: 4px solid var(--bsj-gold);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+}
+
+.post-content .wp-block-pullquote {
+    border-top: 4px solid var(--bsj-gold);
+    border-bottom: 4px solid var(--bsj-gold);
+    padding: 2rem 0;
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 3rem 0;
+}
+
+.post-content .wp-block-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .post-header {
+        padding: 2rem 0;
+    }
+
+    .post-title {
+        font-size: 1.875rem;
+    }
+
+    .post-content {
+        font-size: 1rem;
+    }
+
+    .related-posts-section {
+        padding: 2rem 0;
+    }
+
+    .related-posts-title {
+        font-size: 1.5rem;
+    }
+}

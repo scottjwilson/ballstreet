@@ -2,11 +2,24 @@
 /**
  * Add preconnect hints for Google Fonts
  */
+
+ /**
+ * Register navigation menus
+ */
+function ball_street_register_menus() {
+    register_nav_menus(array(
+        'menuTop' => 'Top Navigation Menu',
+    ));
+    add_theme_support( 'post-thumbnails' );
+    add_theme_support( 'title-tag' );
+}
+add_action('after_setup_theme', 'ball_street_register_menus');
 function ball_street_font_preconnect() {
     echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
     echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
 }
 add_action('wp_head', 'ball_street_font_preconnect', 1);
+
 
 /**
  * Enqueue styles and scripts
@@ -33,6 +46,9 @@ function ball_street_enqueue_assets() {
     // Header styles
     wp_enqueue_style('header', get_template_directory_uri() . '/css/header.css', array('base'), '1.0.0');
     
+    // Footer styles
+    wp_enqueue_style('footer', get_template_directory_uri() . '/css/footer.css', array('base'), '1.0.0');
+    
     // Template sections
     wp_enqueue_style('template-sections', get_template_directory_uri() . '/css/template-sections.css', array('components'), '1.0.0');
     
@@ -48,6 +64,24 @@ function ball_street_enqueue_assets() {
     if (is_archive() || is_category() || is_tag()) {
         wp_enqueue_style('archive', get_template_directory_uri() . '/css/archive.css', array('template-sections'), '1.0.0');
     }
+
+    if (is_home() || is_archive()) {
+        wp_enqueue_style(
+            'home',
+            get_template_directory_uri() . '/css/home.css',
+            array('template-sections'),
+            '1.0.0'
+        );
+    }
+
+    if (get_post_type() === 'athlete') {
+        wp_enqueue_style(
+            'single-athlete',
+            get_template_directory_uri() . '/css/single-athlete.css',
+            array('template-sections'),
+            '1.0.0'
+        );
+    }
     
     // Main JavaScript
     wp_enqueue_script('ball-street-main', get_template_directory_uri() . '/js/main.js', array(), '1.0.0', true);
@@ -56,3 +90,10 @@ add_action('wp_enqueue_scripts', 'ball_street_enqueue_assets');
 
 // Include template functions
 require_once get_template_directory() . '/inc/template-sections.php';
+
+function wpdocs_custom_excerpt_length( $length ) {
+	return 15;
+}
+add_filter( 'excerpt_length', 'wpdocs_custom_excerpt_length', 999 );
+
+
