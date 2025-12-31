@@ -3,33 +3,12 @@
 <?php while (have_posts()) : the_post(); ?>
   
   <?php
-    // Get associated athlete
-    $athlete = get_field('associated_athlete'); // Adjust field name if different (e.g., 'associated_athlete')
-    $athlete_id = 0;
-    $athlete_name = '';
-    $athlete_permalink = '';
-    $athlete_image = '';
+    // Get associated athlete using helper function
+    $athlete = get_associated_athlete();
     
-    if ($athlete) {
-      // Handle ACF relationship field (can be object, array, or ID)
-      if (is_array($athlete)) {
-        $athlete = $athlete[0]; // Get first athlete if multiple
-      }
-      if (is_object($athlete) && isset($athlete->ID)) {
-        $athlete_id = $athlete->ID;
-        $athlete_name = $athlete->post_title;
-        $athlete_permalink = get_permalink($athlete->ID);
-        $athlete_image = get_the_post_thumbnail($athlete->ID, 'thumbnail', array('class' => 'athlete-thumb'));
-      } elseif (is_numeric($athlete)) {
-        $athlete_id = $athlete;
-        $athlete_name = get_the_title($athlete);
-        $athlete_permalink = get_permalink($athlete);
-        $athlete_image = get_the_post_thumbnail($athlete, 'thumbnail', array('class' => 'athlete-thumb'));
-      }
-    }
-    
-    // Get categories
-    $categories = get_the_category();
+    // Get categories using helper function
+    $categories_data = get_post_categories_formatted();
+    $categories = $categories_data['all'];
   ?>
 
   <main class="site-main">
@@ -48,8 +27,8 @@
         
         <!-- Post Meta -->
         <div class="post-meta-tags">
-          <?php if (!empty($categories)) : ?>
-            <?php foreach (array_slice($categories, 0, 2) as $category) : ?>
+          <?php if (!empty($categories_data['first_two'])) : ?>
+            <?php foreach ($categories_data['first_two'] as $category) : ?>
               <span class="post-category-badge">
                 <?php echo esc_html($category->name); ?>
               </span>
@@ -66,20 +45,20 @@
         </h1>
         
         <!-- Associated Athlete Link -->
-        <?php if ($athlete_id) : ?>
+        <?php if ($athlete['id']) : ?>
           <div class="athlete-card-wrapper">
-            <a href="<?php echo esc_url($athlete_permalink); ?>" class="athlete-link-card">
-              <?php if ($athlete_image) : ?>
-                <?php echo $athlete_image; ?>
+            <a href="<?php echo esc_url($athlete['permalink']); ?>" class="athlete-link-card">
+              <?php if ($athlete['image']) : ?>
+                <?php echo $athlete['image']; ?>
               <?php else : ?>
                 <div class="athlete-thumb-placeholder">
-                  <span><?php echo strtoupper(substr($athlete_name, 0, 2)); ?></span>
+                  <span><?php echo strtoupper(substr($athlete['name'], 0, 2)); ?></span>
                 </div>
               <?php endif; ?>
               <div class="athlete-link-info">
                 <div class="athlete-link-label">Related Athlete</div>
                 <div class="athlete-link-name">
-                  <?php echo esc_html($athlete_name); ?>
+                  <?php echo esc_html($athlete['name']); ?>
                 </div>
               </div>
               <svg class="athlete-link-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -131,42 +110,37 @@
     
     <!-- Related Posts Section -->
     <?php
-    $related_posts = new WP_Query(array(
-      'post_type' => 'post',
-      'posts_per_page' => 3,
-      'post__not_in' => array(get_the_ID()),
-      'category__in' => wp_list_pluck($categories, 'term_id'),
-      'orderby' => 'rand'
+    $related_posts = get_related_posts(array(
+      'posts_per_page' => 3
     ));
     
-    if ($related_posts->have_posts()) : ?>
+    if (!empty($related_posts)) : ?>
       <section class="related-posts-section">
         <div class="container">
           <h2 class="related-posts-title">Related Articles</h2>
           <div class="related-posts-grid">
-            <?php while ($related_posts->have_posts()) : $related_posts->the_post(); ?>
+            <?php foreach ($related_posts as $related_post) : ?>
               <article class="related-post-card">
-                <a href="<?php the_permalink(); ?>" class="related-post-link">
-                  <?php if (has_post_thumbnail()) : ?>
+                <a href="<?php echo esc_url($related_post['permalink']); ?>" class="related-post-link">
+                  <?php if ($related_post['has_thumbnail']) : ?>
                     <div class="related-post-image">
-                      <?php the_post_thumbnail('medium', array('class' => 'related-post-img')); ?>
+                      <?php echo $related_post['thumbnail']; ?>
                     </div>
                   <?php endif; ?>
                   <div class="related-post-body">
                     <h3 class="related-post-title">
-                      <?php the_title(); ?>
+                      <?php echo esc_html($related_post['title']); ?>
                     </h3>
                     <p class="related-post-date">
-                      <?php echo get_the_date('M j, Y'); ?>
+                      <?php echo esc_html($related_post['date']); ?>
                     </p>
                   </div>
                 </a>
               </article>
-            <?php endwhile; ?>
+            <?php endforeach; ?>
           </div>
         </div>
       </section>
-      <?php wp_reset_postdata(); ?>
     <?php endif; ?>
     
   </main>

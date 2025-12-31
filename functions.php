@@ -82,6 +82,15 @@ function ball_street_enqueue_assets() {
             '1.0.0'
         );
     }
+
+    if (is_post_type_archive('athlete')) {
+        wp_enqueue_style(
+            'archive-athlete',
+            get_template_directory_uri() . '/css/archive-athlete.css',
+            array('base'),
+            '1.0.0'
+        );
+    }
     
     // Main JavaScript
     wp_enqueue_script('ball-street-main', get_template_directory_uri() . '/js/main.js', array(), '1.0.0', true);
@@ -90,6 +99,7 @@ add_action('wp_enqueue_scripts', 'ball_street_enqueue_assets');
 
 // Include template functions
 require_once get_template_directory() . '/inc/template-sections.php';
+require_once get_template_directory() . '/inc/template-functions.php';
 
 function wpdocs_custom_excerpt_length( $length ) {
 	return 15;

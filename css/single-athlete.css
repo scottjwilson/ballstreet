@@ -68,6 +68,7 @@
     font-weight: bold;
     margin-bottom: 1rem;
     line-height: 1.1;
+    color: var(--gray-50);
 }
 
 .athlete-meta {

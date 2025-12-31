@@ -3,120 +3,9 @@
 <?php while (have_posts()) : the_post(); ?>
   
   <?php
-    // Get ACF fields
-    $position = get_field('position');
-    $class_year = get_field('class_year') ?: get_field('year');
-    $height = get_field('height');
-    $weight = get_field('weight');
-    $high_school = get_field('high_school');
-    $high_school_location = get_field('high_school_location');
-    $nil_valuation = get_field('nil_valuation') ?: get_field('valuation');
-
-    // Get news posts
-    $news = get_field('news');
-    $news_posts = array();
-    if ($news) {
-      if (!is_array($news)) {
-        $news = array($news);
-      }
-      foreach ($news as $news_item) {
-        $news_id = 0;
-        $news_title = '';
-        $news_permalink = '';
-        $news_excerpt = '';
-        $news_date = '';
-        $news_image = '';
-        
-        if (is_object($news_item) && isset($news_item->ID)) {
-          $news_id = $news_item->ID;
-          $news_title = $news_item->post_title;
-          $news_permalink = get_permalink($news_item->ID);
-          $news_excerpt = get_the_excerpt($news_item->ID);
-          $news_date = get_the_date('F j, Y', $news_item->ID);
-          $news_image = get_the_post_thumbnail($news_id, 'medium', array('class' => 'news-thumb'));
-        } elseif (is_numeric($news_item)) {
-          $news_id = $news_item;
-          $news_title = get_the_title($news_id);
-          $news_permalink = get_permalink($news_id);
-          $news_excerpt = get_the_excerpt($news_id);
-          $news_date = get_the_date('F j, Y', $news_id);
-          $news_image = get_the_post_thumbnail($news_id, 'medium', array('class' => 'news-thumb'));
-        }
-        
-        if ($news_id) {
-          $news_posts[] = array(
-            'id' => $news_id,
-            'title' => $news_title,
-            'permalink' => $news_permalink,
-            'excerpt' => $news_excerpt,
-            'date' => $news_date,
-            'image' => $news_image
-          );
-        }
-      }
-    }
-    
-    // Get school
-    $school = get_field('school');
-    $school_id = 0;
-    $school_name = '';
-    $school_permalink = '';
-    if ($school) {
-      if (is_array($school)) {
-        $school = $school[0];
-      }
-      if (is_object($school) && isset($school->ID)) {
-        $school_id = $school->ID;
-        $school_name = $school->post_title;
-        $school_permalink = get_permalink($school->ID);
-      } elseif (is_numeric($school)) {
-        $school_id = $school;
-        $school_name = get_the_title($school);
-        $school_permalink = get_permalink($school);
-      }
-    }
-    
-    // Get sponsors
-    $sponsors = get_field('sponsors');
-    $sponsor_data = array();
-    if ($sponsors) {
-      if (!is_array($sponsors)) {
-        $sponsors = array($sponsors);
-      }
-      foreach ($sponsors as $sponsor) {
-        $sponsor_id = 0;
-        $sponsor_name = '';
-        $sponsor_permalink = '';
-        if (is_object($sponsor) && isset($sponsor->ID)) {
-          $sponsor_id = $sponsor->ID;
-          $sponsor_name = $sponsor->post_title;
-          $sponsor_permalink = get_permalink($sponsor->ID);
-        } elseif (is_numeric($sponsor)) {
-          $sponsor_id = $sponsor;
-          $sponsor_name = get_the_title($sponsor);
-          $sponsor_permalink = get_permalink($sponsor);
-        }
-        if ($sponsor_id) {
-          $sponsor_image = get_the_post_thumbnail($sponsor_id, 'medium', array('class' => 'sponsor-thumb'));
-          $sponsor_data[] = array(
-            'id' => $sponsor_id,
-            'name' => $sponsor_name,
-            'image' => $sponsor_image,
-            'permalink' => $sponsor_permalink
-          );
-        }
-      }
-    }
-    
-    // Format physical stats
-    $physical_stats = '';
-    if ($height && $weight) {
-      $physical_stats = $height . ' / ' . $weight;
-    } elseif ($height) {
-      $physical_stats = $height;
-    } elseif ($weight) {
-      $physical_stats = $weight;
-    }
+    // Get all athlete data using helper functions
+    $fields = get_athlete_fields(true); // true = extended data
+    $news_posts = get_athlete_news();
   ?>
 
   <main class="site-main">
@@ -142,66 +31,54 @@
             <h1 class="athlete-name"><?php the_title(); ?></h1>
             
             <div class="athlete-meta">
-              <?php if ($position) : ?>
+              <?php if ($fields['position']) : ?>
                 <span class="athlete-position-badge">
-                  <?php echo esc_html($position); ?>
+                  <?php echo esc_html($fields['position']); ?>
                 </span>
               <?php endif; ?>
               
-              <?php if ($class_year) : ?>
-                <span class="athlete-meta-item"><?php echo esc_html($class_year); ?></span>
+              <?php if ($fields['class_year']) : ?>
+                <span class="athlete-meta-item"><?php echo esc_html($fields['class_year']); ?></span>
               <?php endif; ?>
               
-              <?php if ($physical_stats) : ?>
-                <span class="athlete-meta-item"><?php echo esc_html($physical_stats); ?></span>
+              <?php if ($fields['physical_stats']) : ?>
+                <span class="athlete-meta-item"><?php echo esc_html($fields['physical_stats']); ?></span>
               <?php endif; ?>
             </div>
             
-            <?php if ($school_id) : ?>
+            <?php if ($fields['school_id']) : ?>
               <div class="athlete-school">
                 <?php 
-                $school_logo = get_the_post_thumbnail($school_id, 'thumbnail', array('class' => 'school-logo-hero'));
+                $school_logo = get_the_post_thumbnail($fields['school_id'], 'thumbnail', array('class' => 'school-logo-hero'));
                 if ($school_logo) {
                   echo $school_logo;
                 }
                 ?>
-                <?php if ($school_permalink) : ?>
-                  <a href="<?php echo esc_url($school_permalink); ?>" class="school-name-link">
-                    <?php echo esc_html($school_name); ?>
+                <?php if ($fields['school_permalink']) : ?>
+                  <a href="<?php echo esc_url($fields['school_permalink']); ?>" class="school-name-link">
+                    <?php echo esc_html($fields['school_name']); ?>
                   </a>
                 <?php else : ?>
-                  <span class="school-name"><?php echo esc_html($school_name); ?></span>
+                  <span class="school-name"><?php echo esc_html($fields['school_name']); ?></span>
                 <?php endif; ?>
               </div>
             <?php endif; ?>
             
-            <?php if ($high_school) : ?>
+            <?php if ($fields['high_school']) : ?>
               <div class="athlete-high-school">
                 <span class="high-school-label">High School:</span> 
-                <?php echo esc_html($high_school); ?>
-                <?php if ($high_school_location) : ?>
-                  <span class="high-school-location">(<?php echo esc_html($high_school_location); ?>)</span>
+                <?php echo esc_html($fields['high_school']); ?>
+                <?php if ($fields['high_school_location']) : ?>
+                  <span class="high-school-location">(<?php echo esc_html($fields['high_school_location']); ?>)</span>
                 <?php endif; ?>
               </div>
             <?php endif; ?>
             
-            <?php if ($nil_valuation) : ?>
+            <?php if ($fields['nil_valuation']) : ?>
               <div class="nil-valuation-card">
                 <div class="nil-label">NIL VALUATION</div>
                 <div class="nil-value">
-                  <?php 
-                  if (is_numeric($nil_valuation)) {
-                    if ($nil_valuation >= 1000000) {
-                      echo '$' . number_format($nil_valuation / 1000000, 1) . 'M';
-                    } elseif ($nil_valuation >= 1000) {
-                      echo '$' . number_format($nil_valuation / 1000, 0) . 'K';
-                    } else {
-                      echo '$' . number_format($nil_valuation);
-                    }
-                  } else {
-                    echo esc_html($nil_valuation);
-                  }
-                  ?>
+                  <?php echo format_nil_valuation($fields['nil_valuation']); ?>
                 </div>
               </div>
             <?php endif; ?>
@@ -283,11 +160,11 @@
           <!-- Sidebar -->
           <div class="athlete-sidebar">
             <!-- Sponsors Card -->
-            <?php if (!empty($sponsor_data)) : ?>
+            <?php if (!empty($fields['sponsor_data'])) : ?>
               <div class="sidebar-card">
                 <h3 class="sidebar-heading">Sponsors</h3>
                 <div class="sponsors-list">
-                  <?php foreach ($sponsor_data as $sponsor) : ?>
+                  <?php foreach ($fields['sponsor_data'] as $sponsor) : ?>
                     <div class="sponsor-item">
                       <?php if ($sponsor['image']) : ?>
                         <div class="sponsor-logo-wrapper">
@@ -313,45 +190,45 @@
             <div class="sidebar-card">
               <h3 class="sidebar-heading">Quick Facts</h3>
               <dl class="quick-facts">
-                <?php if ($position) : ?>
+                <?php if ($fields['position']) : ?>
                   <div class="fact-item">
                     <dt class="fact-label">Position</dt>
-                    <dd class="fact-value"><?php echo esc_html($position); ?></dd>
+                    <dd class="fact-value"><?php echo esc_html($fields['position']); ?></dd>
                   </div>
                 <?php endif; ?>
                 
-                <?php if ($class_year) : ?>
+                <?php if ($fields['class_year']) : ?>
                   <div class="fact-item">
                     <dt class="fact-label">Class</dt>
-                    <dd class="fact-value"><?php echo esc_html($class_year); ?></dd>
+                    <dd class="fact-value"><?php echo esc_html($fields['class_year']); ?></dd>
                   </div>
                 <?php endif; ?>
                 
-                <?php if ($height) : ?>
+                <?php if ($fields['height']) : ?>
                   <div class="fact-item">
                     <dt class="fact-label">Height</dt>
-                    <dd class="fact-value"><?php echo esc_html($height); ?></dd>
+                    <dd class="fact-value"><?php echo esc_html($fields['height']); ?></dd>
                   </div>
                 <?php endif; ?>
                 
-                <?php if ($weight) : ?>
+                <?php if ($fields['weight']) : ?>
                   <div class="fact-item">
                     <dt class="fact-label">Weight</dt>
-                    <dd class="fact-value"><?php echo esc_html($weight); ?></dd>
+                    <dd class="fact-value"><?php echo esc_html($fields['weight']); ?></dd>
                   </div>
                 <?php endif; ?>
                 
-                <?php if ($high_school) : ?>
+                <?php if ($fields['high_school']) : ?>
                   <div class="fact-item">
                     <dt class="fact-label">High School</dt>
-                    <dd class="fact-value fact-value-right"><?php echo esc_html($high_school); ?></dd>
+                    <dd class="fact-value fact-value-right"><?php echo esc_html($fields['high_school']); ?></dd>
                   </div>
                 <?php endif; ?>
                 
-                <?php if ($school_name) : ?>
+                <?php if ($fields['school_name']) : ?>
                   <div class="fact-item">
                     <dt class="fact-label">School</dt>
-                    <dd class="fact-value fact-value-right"><?php echo esc_html($school_name); ?></dd>
+                    <dd class="fact-value fact-value-right"><?php echo esc_html($fields['school_name']); ?></dd>
                   </div>
                 <?php endif; ?>
               </dl>
