@@ -140,11 +140,15 @@
 /* NIL Valuation Card */
 .nil-valuation-card {
     background-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
     border-radius: 0.5rem;
     padding: 1rem;
     border: 1px solid rgba(255, 255, 255, 0.2);
     margin-top: 1.5rem;
+    width:fit-content;
+
+;
+
 }
 
 .nil-label {
@@ -157,6 +161,7 @@
 .nil-value {
     font-size: 1.875rem;
     font-weight: bold;
+    color: white;
 }
 
 /* Content Section */

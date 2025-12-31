@@ -1,74 +1,13 @@
 <?php get_header(); ?>
 
 <?php while (have_posts()) : the_post(); ?>
-  
-  <?php
-    // Get associated athlete using helper function
-    $athlete = get_associated_athlete();
-    
-    // Get categories using helper function
-    $categories_data = get_post_categories_formatted();
-    $categories = $categories_data['all'];
+  <?php 
+  $post_data = get_single_post_data();
+  set_query_var('post_data', $post_data);
   ?>
 
   <main class="site-main">
-    <!-- Header Section -->
-    <section class="post-header">
-      <div class="container">
-        <!-- Back to News Link -->
-        <div class="back-link-wrapper">
-          <a href="<?php echo get_post_type_archive_link('post'); ?>" class="back-link">
-            <svg class="back-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
-            Back to News
-          </a>
-        </div>
-        
-        <!-- Post Meta -->
-        <div class="post-meta-tags">
-          <?php if (!empty($categories_data['first_two'])) : ?>
-            <?php foreach ($categories_data['first_two'] as $category) : ?>
-              <span class="post-category-badge">
-                <?php echo esc_html($category->name); ?>
-              </span>
-            <?php endforeach; ?>
-          <?php endif; ?>
-          <span class="post-date">
-            <?php echo get_the_date('F j, Y'); ?>
-          </span>
-        </div>
-        
-        <!-- Post Title -->
-        <h1 class="post-title">
-          <?php the_title(); ?>
-        </h1>
-        
-        <!-- Associated Athlete Link -->
-        <?php if ($athlete['id']) : ?>
-          <div class="athlete-card-wrapper">
-            <a href="<?php echo esc_url($athlete['permalink']); ?>" class="athlete-link-card">
-              <?php if ($athlete['image']) : ?>
-                <?php echo $athlete['image']; ?>
-              <?php else : ?>
-                <div class="athlete-thumb-placeholder">
-                  <span><?php echo strtoupper(substr($athlete['name'], 0, 2)); ?></span>
-                </div>
-              <?php endif; ?>
-              <div class="athlete-link-info">
-                <div class="athlete-link-label">Related Athlete</div>
-                <div class="athlete-link-name">
-                  <?php echo esc_html($athlete['name']); ?>
-                </div>
-              </div>
-              <svg class="athlete-link-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-              </svg>
-            </a>
-          </div>
-        <?php endif; ?>
-      </div>
-    </section>
+    <?php get_template_part('template-parts/post', 'header'); ?>
     
     <!-- Featured Image -->
     <?php if (has_post_thumbnail()) : ?>
@@ -92,10 +31,10 @@
         <div class="post-footer">
           <div class="post-footer-content">
             <div class="post-categories">
-              <?php if (!empty($categories)) : ?>
+              <?php if (!empty($post_data['categories']['all'])) : ?>
                 <div class="post-categories-list">
                   <span class="categories-label">Categories:</span>
-                  <?php foreach ($categories as $category) : ?>
+                  <?php foreach ($post_data['categories']['all'] as $category) : ?>
                     <a href="<?php echo get_category_link($category->term_id); ?>" class="category-link">
                       <?php echo esc_html($category->name); ?>
                     </a>
@@ -108,41 +47,10 @@
       </div>
     </section>
     
-    <!-- Related Posts Section -->
-    <?php
-    $related_posts = get_related_posts(array(
-      'posts_per_page' => 3
-    ));
-    
-    if (!empty($related_posts)) : ?>
-      <section class="related-posts-section">
-        <div class="container">
-          <h2 class="related-posts-title">Related Articles</h2>
-          <div class="related-posts-grid">
-            <?php foreach ($related_posts as $related_post) : ?>
-              <article class="related-post-card">
-                <a href="<?php echo esc_url($related_post['permalink']); ?>" class="related-post-link">
-                  <?php if ($related_post['has_thumbnail']) : ?>
-                    <div class="related-post-image">
-                      <?php echo $related_post['thumbnail']; ?>
-                    </div>
-                  <?php endif; ?>
-                  <div class="related-post-body">
-                    <h3 class="related-post-title">
-                      <?php echo esc_html($related_post['title']); ?>
-                    </h3>
-                    <p class="related-post-date">
-                      <?php echo esc_html($related_post['date']); ?>
-                    </p>
-                  </div>
-                </a>
-              </article>
-            <?php endforeach; ?>
-          </div>
-        </div>
-      </section>
-    <?php endif; ?>
-    
+    <?php 
+    set_query_var('related_posts', $post_data['related_posts']);
+    get_template_part('template-parts/related', 'posts');
+    ?>
   </main>
 
 <?php endwhile; ?>

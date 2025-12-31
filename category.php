@@ -1,8 +1,21 @@
 <?php get_header(); ?>
 
+<?php
+// Get current category information
+$category = get_queried_object();
+$category_name = $category->name;
+$category_description = $category->description;
+$category_emoji = getCategoryEmoji($category_name);
+$category_count = $category->count;
+
+// Build header title with emoji
+$header_title = $category_emoji . ' ' . $category_name;
+$header_subtitle = $category_description ?: 'Browse all posts in this category';
+?>
+
 <main class="site-main">
     <!-- Header Section -->
-    <?php getHeaderSection('News', 'Latest sports news, analysis, and coverage'); ?>
+    <?php getHeaderSection($header_title, $header_subtitle); ?>
     
     <!-- News List Section -->
     <section class="news-list-section">
@@ -33,7 +46,10 @@
                         </div>
                     <?php else : ?>
                         <div class="no-news">
-                            <p>No news found.</p>
+                            <p>No posts found in this category.</p>
+                            <a href="<?php echo esc_url(home_url()); ?>" class="back-to-home">
+                                ← Back to Home
+                            </a>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -41,7 +57,7 @@
                 <!-- Categories Sidebar (1 column) -->
                 <div class="news-sidebar">
                     <div class="sidebar-categories">
-                        <h3 class="sidebar-title">Categories</h3>
+                        <h3 class="sidebar-title">All Categories</h3>
                         <?php
                         $categories = get_categories(array(
                             'orderby' => 'name',
@@ -51,13 +67,17 @@
                         
                         if (!empty($categories)) : ?>
                             <ul class="categories-list">
-                                <?php foreach ($categories as $category) : ?>
-                                    <li class="category-item">
-                                        <a href="<?php echo esc_url(get_category_link($category->term_id)); ?>" 
+                                <?php foreach ($categories as $cat) : 
+                                    $is_current = ($cat->term_id === $category->term_id);
+                                    $cat_emoji = getCategoryEmoji($cat->name);
+                                ?>
+                                    <li class="category-item <?php echo $is_current ? 'current-category' : ''; ?>">
+                                        <a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>" 
                                            class="category-link">
-                                            <span class="category-name"><?php echo esc_html($category->name); ?></span>
+                                            <span class="category-emoji"><?php echo $cat_emoji; ?></span>
+                                            <span class="category-name"><?php echo esc_html($cat->name); ?></span>
                                             <span class="category-count">
-                                                (<?php echo $category->count; ?>)
+                                                (<?php echo $cat->count; ?>)
                                             </span>
                                         </a>
                                     </li>
@@ -66,6 +86,13 @@
                         <?php else : ?>
                             <p class="no-categories">No categories found.</p>
                         <?php endif; ?>
+                    </div>
+                    
+                    <!-- Back to All News Link -->
+                    <div class="sidebar-back-link">
+                        <a href="<?php echo esc_url(get_post_type_archive_link('post')); ?>" class="back-link-sidebar">
+                            ← View All News
+                        </a>
                     </div>
                 </div>
             </div>

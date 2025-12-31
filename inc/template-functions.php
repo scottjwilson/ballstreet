@@ -277,3 +277,148 @@ function get_single_post_data($post_id = null) {
         'related_posts' => get_related_posts(array('posts_per_page' => 3))
     );
 }
+
+/**
+ * Generic function to process ACF relationship fields
+ * Handles objects, arrays, and numeric IDs
+ */
+function get_acf_relationship_field($field_name, $post_id = null, $size = 'thumbnail', $class = '') {
+    if (!$post_id) {
+        $post_id = get_the_ID();
+    }
+    
+    $field = get_field($field_name, $post_id);
+    $result = array(
+        'id' => 0,
+        'name' => '',
+        'permalink' => '',
+        'image' => '',
+        'thumbnail' => '',
+        'object' => null
+    );
+    
+    if ($field) {
+        // Handle array (multiple relationships)
+        if (is_array($field) && !empty($field)) {
+            $field = $field[0]; // Get first item
+        }
+        
+        // Handle object
+        if (is_object($field) && isset($field->ID)) {
+            $result['id'] = $field->ID;
+            $result['name'] = $field->post_title;
+            $result['permalink'] = get_permalink($field->ID);
+            $result['image'] = get_the_post_thumbnail($field->ID, $size, array('class' => $class));
+            $result['thumbnail'] = get_the_post_thumbnail($field->ID, $size);
+            $result['object'] = $field;
+        }
+        // Handle numeric ID
+        elseif (is_numeric($field)) {
+            $result['id'] = $field;
+            $result['name'] = get_the_title($field);
+            $result['permalink'] = get_permalink($field);
+            $result['image'] = get_the_post_thumbnail($field, $size, array('class' => $class));
+            $result['thumbnail'] = get_the_post_thumbnail($field, $size);
+            $result['object'] = get_post($field);
+        }
+    }
+    
+    return $result;
+}
+
+/**
+ * Get multiple ACF relationship items
+ */
+function get_acf_relationship_field_multiple($field_name, $post_id = null, $size = 'thumbnail', $class = '') {
+    if (!$post_id) {
+        $post_id = get_the_ID();
+    }
+    
+    $field = get_field($field_name, $post_id);
+    $results = array();
+    
+    if ($field) {
+        if (!is_array($field)) {
+            $field = array($field);
+        }
+        
+        foreach ($field as $item) {
+            $item_id = 0;
+            $item_name = '';
+            $item_permalink = '';
+            $item_image = '';
+            
+            if (is_object($item) && isset($item->ID)) {
+                $item_id = $item->ID;
+                $item_name = $item->post_title;
+                $item_permalink = get_permalink($item->ID);
+                $item_image = get_the_post_thumbnail($item->ID, $size, array('class' => $class));
+            } elseif (is_numeric($item)) {
+                $item_id = $item;
+                $item_name = get_the_title($item);
+                $item_permalink = get_permalink($item);
+                $item_image = get_the_post_thumbnail($item, $size, array('class' => $class));
+            }
+            
+            if ($item_id) {
+                $results[] = array(
+                    'id' => $item_id,
+                    'name' => $item_name,
+                    'permalink' => $item_permalink,
+                    'image' => $item_image,
+                    'thumbnail' => get_the_post_thumbnail($item_id, $size),
+                    'object' => is_object($item) ? $item : get_post($item_id)
+                );
+            }
+        }
+    }
+    
+    return $results;
+}
+
+/**
+ * Get formatted post data for card display
+ */
+function get_post_card_data($post_id = null) {
+    if (!$post_id) {
+        $post_id = get_the_ID();
+    }
+    
+    return array(
+        'id' => $post_id,
+        'title' => get_the_title($post_id),
+        'permalink' => get_permalink($post_id),
+        'date' => get_the_date('F j, Y', $post_id),
+        'date_short' => get_the_date('M j, Y', $post_id),
+        'excerpt' => get_the_excerpt($post_id),
+        'thumbnail' => has_post_thumbnail($post_id) ? get_the_post_thumbnail($post_id, 'medium', array('class' => 'article-thumb')) : '',
+        'has_thumbnail' => has_post_thumbnail($post_id),
+        'categories' => get_post_categories_formatted($post_id)
+    );
+}
+
+/**
+ * Get formatted athlete card data
+ */
+function get_athlete_card_data($athlete_id = null) {
+    if (!$athlete_id) {
+        $athlete_id = get_the_ID();
+    }
+    
+    $fields = get_athlete_fields();
+    
+    return array(
+        'id' => $athlete_id,
+        'title' => get_the_title($athlete_id),
+        'permalink' => get_permalink($athlete_id),
+        'thumbnail' => has_post_thumbnail($athlete_id) ? get_the_post_thumbnail($athlete_id, 'medium', array('class' => 'athlete-thumb')) : '',
+        'has_thumbnail' => has_post_thumbnail($athlete_id),
+        'position' => $fields['position'],
+        'class_year' => $fields['class_year'],
+        'physical_stats' => $fields['physical_stats'],
+        'nil_valuation' => $fields['nil_valuation'],
+        'school_id' => $fields['school_id'],
+        'school_name' => $fields['school_name'],
+        'sponsor_images' => $fields['sponsor_images']
+    );
+}
