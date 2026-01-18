@@ -1,55 +1,55 @@
-import { defineConfig } from 'vite';
-import { resolve } from 'path';
+import { defineConfig } from "vite";
+import { resolve } from "path";
 
 export default defineConfig(({ command }) => {
-  const isProduction = command === 'build';
-  
+  const isProduction = command === "build";
+
   return {
     // Only use base path in production builds
     // In dev mode, Vite serves from root for simpler URLs
-    base: isProduction ? '/wp-content/themes/ballstreet/' : '/',
-    
+    base: isProduction ? "/wp-content/themes/ballstreet/" : "/",
+
     build: {
       manifest: true,
-      outDir: 'dist',
+      outDir: "dist",
       emptyOutDir: true,
       rollupOptions: {
         input: {
           // Main entry point - CSS is imported here for HMR
-          main: resolve(__dirname, 'js/main.js'),
+          main: resolve(__dirname, "src/js/main.js"),
         },
         output: {
-          entryFileNames: 'js/[name].js',
-          chunkFileNames: 'js/[name]-[hash].js',
+          entryFileNames: "js/[name].js",
+          chunkFileNames: "js/[name]-[hash].js",
           assetFileNames: (assetInfo) => {
-            if (assetInfo.name && assetInfo.name.endsWith('.css')) {
-              return 'css/[name][extname]';
+            if (assetInfo.name && assetInfo.name.endsWith(".css")) {
+              return "css/[name][extname]";
             }
-            return 'assets/[name]-[hash][extname]';
-          }
-        }
+            return "assets/[name]-[hash][extname]";
+          },
+        },
       },
     },
-    
+
     // Server configuration for hot reload
     server: {
-      host: 'localhost',
+      host: "localhost",
       port: 3000,
       strictPort: true,
       cors: true,
       hmr: {
-        host: 'localhost',
-        protocol: 'ws',
+        host: "localhost",
+        protocol: "ws",
       },
       watch: {
         // Watch CSS files for changes
-        include: ['css/**/*.css', 'js/**/*.js'],
+        include: ["src/css/**/*.css", "src/js/**/*.js"],
       },
     },
-    
+
     // Public directory
     publicDir: false,
-    
+
     css: {
       devSourcemap: true,
     },
