@@ -27,7 +27,7 @@ function ball_street_theme_setup()
         "flex-width" => true,
     ]);
 }
-add_action("after_setup_theme", "ball_street_register_menus");
+add_action("after_setup_theme", "ball_street_theme_setup");
 function ball_street_font_preconnect()
 {
     echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
