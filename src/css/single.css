@@ -5,7 +5,7 @@
 
 /* Post Header Section */
 .post-header {
-    background: linear-gradient(to bottom right, var(--bsj-navy), #1E3A8A);
+    background: linear-gradient(to bottom right, var(--bsj-navy), #1e3a8a);
     color: white;
     padding: 3rem 0;
 }
@@ -25,7 +25,7 @@
 }
 
 .back-link:hover {
-    color: #EAB308;
+    color: #eab308;
 }
 
 .back-icon {
@@ -64,7 +64,7 @@
     font-weight: bold;
     margin-bottom: 1rem;
     line-height: 1.2;
-
+    color: white;
 }
 
 @media (min-width: 768px) {
